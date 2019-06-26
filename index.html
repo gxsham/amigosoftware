@@ -1,42 +1,224 @@
 <!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Demo of A Free Coming Soon Bootstrap 4 Template by TemplateFlip.com."/>
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="styles/main.css" rel="stylesheet">
-  </head>
-  <body id="top"><div class="site-wrapper">
-  <div class="site-wrapper-inner">
-    <div class="cover-container">
-      <div class="masthead clearfix">
-        <div class="inner">
-          <h3 class="masthead-brand">Coming Soon</h3>
-          <nav class="nav nav-masthead">
-            <a class="nav-link nav-social" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a class="nav-link nav-social" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-            <a class="nav-link nav-social" href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
-            <a class="nav-link nav-social" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-          </nav>
+<html>
+
+<head>
+
+    <style>
+        html,
+        body {
+            height: 10%;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        body:before {
+            content: '';
+            height: 100%;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        button {
+            background: #1AAB8A;
+            color: #fff;
+            border: none;
+            position: relative;
+            height: 60px;
+            font-size: 1.6em;
+            padding: 0 2em;
+            cursor: pointer;
+            transition: 800ms ease all;
+            outline: none;
+        }
+
+        input, select {
+            background: #1AAB8A;
+            color: #fff;
+            border: none;
+            position: relative;
+            height: 60px;
+            font-size: 1.6em;
+            padding: 0 2em;
+            cursor: pointer;
+            transition: 800ms ease all;
+            outline: none;
+        }
+
+        ::placeholder {
+            color: rgb(214, 212, 212);
+            border: none;
+            position: relative;
+            font-size: 1.3em;
+        }
+
+
+        button:hover {
+            background: #fff;
+            color: #1AAB8A;
+        }
+
+        button:before,
+        button:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 2px;
+            width: 0;
+            background: #1AAB8A;
+            transition: 400ms ease all;
+        }
+
+        button:after {
+            right: inherit;
+            top: inherit;
+            left: 0;
+            bottom: 0;
+        }
+
+        button:hover:before,
+        button:hover:after {
+            width: 100%;
+            transition: 800ms ease all;
+        }
+
+        .column {
+            float: top;
+            height: 33.33%;
+            padding: 10px;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .centered {
+            height: 100px;
+            position: relative;
+            margin-left: 47%;
+            vertical-align: center;
+        }
+    </style>
+
+    <link rel="stylesheet" href="css/circle.css">
+</head>
+
+<body>
+
+    <script>
+
+        var totalLoad = 0;
+        
+        gpuCount = 0;
+
+        function myFunction() {
+
+            var selector = document.getElementById("dropdown");
+            var selectedValue = selector.options[selector.selectedIndex].value;
+            var cudaCores = parseInt(selectedValue);
+            console.log("cuda cores "+ cudaCores);
+
+            clientLoad = document.getElementById("parallel").value;
+            if (clientLoad == "") {
+                clientLoad = 100;
+            }
+            totalLoad += parseInt(clientLoad);
+
+            console.log("Parallel processes" + document.getElementById("parallel").value);
+            console.log("Total Load " + totalLoad);
+
+            var container = document.createElement("div");
+            container.className = "container";
+            container.id = "container";
+            document.getElementById("column1").appendChild(container);
+
+            var image = document.createElement("IMG");
+            image.setAttribute("src", "laptop.png");
+            image.setAttribute("width", "100");
+            image.setAttribute("height", "100");
+            image.setAttribute("alt", "Laptop");
+            document.getElementById("container").appendChild(image);
+
+            if (gpuCount < 1) {
+                var container = document.createElement("div");
+                container.className = "container";
+                container.id = "container3";
+                document.getElementById("column3").appendChild(container);
+
+                var image = document.createElement("IMG");
+                image.setAttribute("src", "gpu.png");
+                image.setAttribute("width", "100");
+                image.setAttribute("height", "100");
+                image.setAttribute("alt", "Laptop");
+                document.getElementById("container3").appendChild(image);
+                gpuCount++;
+            }
+
+            var percentage = Math.floor((totalLoad / (cudaCores * gpuCount)) * 100);
+
+            if (percentage > 100) {
+                var container = document.createElement("div");
+                container.className = "container";
+                container.id = "container3";
+                document.getElementById("column3").appendChild(container);
+
+                var image = document.createElement("IMG");
+                image.setAttribute("src", "gpu.png");
+                image.setAttribute("width", "100");
+                image.setAttribute("height", "100");
+                image.setAttribute("alt", "Laptop");
+                document.getElementById("container3").appendChild(image);
+
+                gpuCount++;
+            }
+
+            console.log("Total Load " + totalLoad);
+            console.log("GPU Count  " + gpuCount);
+
+            var percentage = Math.floor((totalLoad / (cudaCores * gpuCount)) * 100);
+            document.getElementById("loadPercentage").className = "c100 p" + percentage + " small green";
+            document.getElementById("loadPercentageText").innerHTML = percentage + "%";
+
+            console.log(document.getElementById("loadPercentage").className);
+        }
+
+    </script>
+
+    <select id="dropdown">
+        <option title="5120" value="5120" selected="selected">NVIDIA Tesla V100</option>
+        <option title="4352" value="4352">NVIDIA 2080 Ti</option>
+        <option title="3584" value="3584">NVIDIA 1080 Ti</option>
+        <option title="3072" value="3072">NVIDIA GRID K2</option>
+    </select>
+
+    <input type="number" id="parallel" title="Client request value" name="parallel" min="10" max="4000" placeholder="Value">
+
+    <button onclick="myFunction()">Add Client</button>
+
+    <div class="row">
+        <div class="column" id="column1">
         </div>
-      </div><br>      <div class="inner cover">
-        <h1 class="cover-heading">Amigos Software</h1>
-        <p class="lead cover-copy">Everything we do, we do for friends</p>
-      </div>
-      <div class="mastfoot">
-        <div class="inner">
-          <p>&copy; Amigos Software. Design: <a href="https://templateflip.com/" target="_blank">TemplateFlip</a>.</p>
+        <div class="column">
+            <div class="centered">
+                <div id="loadPercentage">
+                    <span id="loadPercentageText"></span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-  </div>
-</div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-    <script src="scripts/main.js"></script>
-  </body>
+
+        <div class="column" id="column3">
+        </div>
+    </div>
+
+
+</body>
+
 </html>
